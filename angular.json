@@ -5,7 +5,11 @@
   "projects": {
     "ti-wizard": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "standalone": true
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -100,10 +104,6 @@
     }
   },
   "cli": {
-    "analytics": "8079d75c-b6ef-46a0-ac00-59fa6f30ace7",
-    "schematicCollections": [
-      "@cypress/schematic",
-      "@schematics/angular"
-    ]
+    "analytics": "2d43afbc-0a59-458e-8f35-15dfb63a5072"
   }
 }

@@ -10,5 +10,25 @@
     <button mat-flat-button color="primary" routerLink="/about" routerLinkActive="active"
       ariaCurrentWhenActive="page">About</button>
   </nav>
+  <button mat-mini-fab [matMenuTriggerFor]="menu"
+    [matTooltip]="(authenticationService.user$ | async)?.displayName ?? ''" type="button">
+    @if((authenticationService.user$ | async)?.photoURL){
+    <img [src]="(authenticationService.user$ | async)?.photoURL" title="photo" />
+    } @else {
+    <ng-container>
+      {{(authenticationService.user$ | async)?.displayName?.charAt(0)?.toUpperCase() ?? '?'}}
+    </ng-container>
+    }
+  </button>
+  <mat-menu #menu="matMenu">
+    @if(authenticationService.user$ | async){
+    <button mat-menu-item routerLink="/edit" type="button">Edit
+      Profile</button>
+    <button mat-menu-item (click)="logout()" type="button">Logout</button>
+    } @else {
+    <button mat-menu-item routerLink="/login" type="button">Login</button>
+    <button mat-menu-item routerLink="/register" type="button">Register</button>
+    }
+  </mat-menu>
 </mat-toolbar>
 <router-outlet></router-outlet>
