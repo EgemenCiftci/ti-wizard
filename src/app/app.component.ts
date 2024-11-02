@@ -8,10 +8,9 @@ import { RouterOutlet } from '@angular/router';
     styleUrls: ['./app.component.css'],
     standalone: true,
     imports: [
-        HeaderComponent, 
+        HeaderComponent,
         RouterOutlet
     ]
 })
 export class AppComponent {
-
 }

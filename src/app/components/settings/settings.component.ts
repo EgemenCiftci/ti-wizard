@@ -6,16 +6,29 @@ import { SnackBarService } from 'src/app/services/snack-bar.service';
 import { CdkDragDrop, moveItemInArray, CdkDropList, CdkDrag } from '@angular/cdk/drag-drop';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
-
 import { MatIcon } from '@angular/material/icon';
 import { MatButton } from '@angular/material/button';
 
 @Component({
-    selector: 'app-settings',
-    templateUrl: './settings.component.html',
-    styleUrls: ['./settings.component.css'],
-    standalone: true,
-    imports: [FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatChipGrid, CdkDropList, MatChipRow, CdkDrag, MatChipRemove, MatIcon, MatChipInput, MatButton]
+  selector: 'app-settings',
+  templateUrl: './settings.component.html',
+  styleUrls: ['./settings.component.css'],
+  standalone: true,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatChipGrid,
+    CdkDropList,
+    MatChipRow,
+    CdkDrag,
+    MatChipRemove,
+    MatIcon,
+    MatChipInput,
+    MatButton
+  ]
 })
 export class SettingsComponent implements OnInit {
   private formBuilder = inject(FormBuilder);
@@ -23,11 +36,6 @@ export class SettingsComponent implements OnInit {
   private snackBarService = inject(SnackBarService);
 
   form!: FormGroup;
-
-  /** Inserted by Angular inject() migration for backwards compatibility */
-  constructor(...args: unknown[]);
-
-  constructor() { }
 
   ngOnInit() {
     this.form = this.formBuilder.group({

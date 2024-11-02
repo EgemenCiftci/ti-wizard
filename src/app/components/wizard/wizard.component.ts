@@ -27,11 +27,39 @@ import { MatSelect } from '@angular/material/select';
 import { MatChipListbox, MatChip } from '@angular/material/chips';
 
 @Component({
-    selector: 'app-wizard',
-    templateUrl: './wizard.component.html',
-    styleUrls: ['./wizard.component.css'],
-    standalone: true,
-    imports: [MatStepper, MatStep, MatStepLabel, MatButton, MatIcon, FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatAutocompleteTrigger, MatAutocomplete, MatOption, MatStepperNext, MatDatepickerInput, MatHint, MatDatepickerToggle, MatSuffix, MatDatepicker, ScoreComponent, MatDivider, MatStepperPrevious, MatSelect, MatIconButton, MatChipListbox, MatChip, DecimalPipe]
+  selector: 'app-wizard',
+  templateUrl: './wizard.component.html',
+  styleUrls: ['./wizard.component.css'],
+  standalone: true,
+  imports: [
+    MatStepper,
+    MatStep,
+    MatStepLabel,
+    MatButton,
+    MatIcon,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatAutocompleteTrigger,
+    MatAutocomplete,
+    MatOption,
+    MatStepperNext,
+    MatDatepickerInput,
+    MatHint,
+    MatDatepickerToggle,
+    MatSuffix,
+    MatDatepicker,
+    ScoreComponent,
+    MatDivider,
+    MatStepperPrevious,
+    MatSelect,
+    MatIconButton,
+    MatChipListbox,
+    MatChip,
+    DecimalPipe
+  ]
 })
 export class WizardComponent implements OnInit, AfterViewInit, OnDestroy {
   private _formBuilder = inject(FormBuilder);
@@ -68,11 +96,6 @@ export class WizardComponent implements OnInit, AfterViewInit, OnDestroy {
   handleTaskScoreSubscription?: Subscription;
   handleQuestionsScoreSubject = new Subject<void>();
   handleQuestionsScoreSubscription?: Subscription;
-
-  /** Inserted by Angular inject() migration for backwards compatibility */
-  constructor(...args: unknown[]);
-
-  constructor() { }
 
   ngOnInit() {
     this.candidateNameFormGroup.get('candidateName')?.valueChanges.subscribe(async val => {

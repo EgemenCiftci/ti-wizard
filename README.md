@@ -1,6 +1,7 @@
 # Technical Interview Wizard
 
 Used technologies:
+- Firebase authentication
 - File system access API
 - Excel read/write using ExcelJS
 - Excel formula calculation using HyperFormula

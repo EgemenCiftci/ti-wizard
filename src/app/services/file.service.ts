@@ -29,12 +29,6 @@ export class FileService {
   questionMaterialsFileHandle?: FileSystemFileHandle;
   interviewFormFileHandle?: FileSystemFileHandle;
 
-  /** Inserted by Angular inject() migration for backwards compatibility */
-  constructor(...args: unknown[]);
-
-  constructor() {
-  }
-
   async initialize() {
     await this.getTiDirectoryHandle();
     this.outputDirectoryHandle = await this.getDirectoryHandle(this.tiDirectoryHandle, this.settingsService.outputDirectory, true);
