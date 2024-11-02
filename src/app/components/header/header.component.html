@@ -1,0 +1,30 @@
+<mat-toolbar color="primary">
+    <mat-icon style="margin-right: 10px;">auto_fix_high</mat-icon>
+    <span>TI Wizard</span>
+    <span class="spacer"></span>
+    <nav>
+        <button mat-flat-button color="primary" routerLink="/" routerLinkActive="active"
+            ariaCurrentWhenActive="page">Wizard</button>
+        <button mat-flat-button color="primary" routerLink="/settings" routerLinkActive="active"
+            ariaCurrentWhenActive="page">Settings</button>
+        <button mat-flat-button color="primary" routerLink="/about" routerLinkActive="active"
+            ariaCurrentWhenActive="page">About</button>
+    </nav>
+    <button mat-mini-fab [matMenuTriggerFor]="menu"
+        [matTooltip]="(authenticationService.user$ | async)?.displayName ?? ''" type="button">
+        @if((authenticationService.user$ | async)?.photoURL){
+        <img [src]="(authenticationService.user$ | async)?.photoURL" title="photo" />
+        }
+        @else {
+        {{(authenticationService.user$ | async)?.displayName?.charAt(0)?.toUpperCase() ?? '?'}}
+        }
+    </button>
+    <mat-menu #menu="matMenu">
+        @if(authenticationService.user$ | async){
+        <button mat-menu-item (click)="logout()" type="button">Logout</button>
+        }
+        @else {
+        <button mat-menu-item routerLink="/login" type="button">Login</button>
+        }
+    </mat-menu>
+</mat-toolbar>

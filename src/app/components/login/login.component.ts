@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
 import { MatCard, MatCardActions, MatCardContent, MatCardFooter, MatCardHeader, MatCardTitle } from '@angular/material/card';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
@@ -27,7 +28,8 @@ import { SnackBarService } from 'src/app/services/snack-bar.service';
     MatCheckbox,
     MatIcon,
     MatCardFooter,
-    MatProgressBar
+    MatProgressBar,
+    MatButton
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
