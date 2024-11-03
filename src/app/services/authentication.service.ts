@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { Auth, authState, inMemoryPersistence, signInWithEmailAndPassword, signOut, user, UserCredential } from '@angular/fire/auth';
+import { Auth, authState, inMemoryPersistence, signInWithEmailAndPassword, signOut, user } from '@angular/fire/auth';
 import { browserLocalPersistence, setPersistence } from 'firebase/auth';
 
 @Injectable({
@@ -9,10 +9,6 @@ export class AuthenticationService {
   auth: Auth = inject(Auth);
   user$ = user(this.auth);
   authState$ = authState(this.auth);
-  userCredential: UserCredential | undefined;
-
-  constructor() {
-  }
 
   async signIn(email: string, password: string, isRemember: boolean) {
     if (isRemember) {
@@ -20,7 +16,8 @@ export class AuthenticationService {
     } else {
       await setPersistence(this.auth, inMemoryPersistence);
     }
-    this.userCredential = await signInWithEmailAndPassword(this.auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(this.auth, email, password);
+    console.log(userCredential);
   }
 
   async signOut() {

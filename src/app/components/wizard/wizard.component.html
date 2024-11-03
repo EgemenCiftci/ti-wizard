@@ -347,7 +347,7 @@
         </button>
         }
         <mat-chip-listbox class="mat-mdc-chip-set-stacked">
-          @for (sentence of settingsService.preformedSentences; track sentence) {
+          @for (sentence of (settingsService.settings$ | async)?.preformedSentences; track sentence) {
           <mat-chip color="primary" (click)="addSentence(sentence)">
             {{sentence}}
           </mat-chip>

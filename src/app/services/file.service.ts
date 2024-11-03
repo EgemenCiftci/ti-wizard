@@ -13,6 +13,7 @@ import { RawCellContent } from 'hyperformula/typings/CellContentParser';
 import { OverviewData } from '../models/overview-data';
 import { ResultData } from '../models/result-data';
 import { TaskScores } from '../models/task-scores';
+import { take, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -31,12 +32,14 @@ export class FileService {
 
   async initialize() {
     await this.getTiDirectoryHandle();
-    this.outputDirectoryHandle = await this.getDirectoryHandle(this.tiDirectoryHandle, this.settingsService.outputDirectory, true);
-    this.inputDirectoryHandle = await this.getDirectoryHandle(this.tiDirectoryHandle, this.settingsService.inputDirectory);
-    this.aspNetCoreCodeFileHandle = await this.getFileHandle(this.inputDirectoryHandle, this.settingsService.aspNetCoreCodeFileName);
-    this.wpfCodeFileHandle = await this.getFileHandle(this.inputDirectoryHandle, this.settingsService.wpfCodeFileName);
-    this.questionMaterialsFileHandle = await this.getFileHandle(this.inputDirectoryHandle, this.settingsService.questionMaterialsFileName);
-    this.interviewFormFileHandle = await this.getFileHandle(this.inputDirectoryHandle, this.settingsService.interviewFormFileName);
+    this.settingsService.settings$.pipe(take(1), tap(async (settings) => {
+      this.outputDirectoryHandle = await this.getDirectoryHandle(this.tiDirectoryHandle, settings.outputDirectory, true);
+      this.inputDirectoryHandle = await this.getDirectoryHandle(this.tiDirectoryHandle, settings.inputDirectory);
+      this.aspNetCoreCodeFileHandle = await this.getFileHandle(this.inputDirectoryHandle, settings.aspNetCoreCodeFileName);
+      this.wpfCodeFileHandle = await this.getFileHandle(this.inputDirectoryHandle, settings.wpfCodeFileName);
+      this.questionMaterialsFileHandle = await this.getFileHandle(this.inputDirectoryHandle, settings.questionMaterialsFileName);
+      this.interviewFormFileHandle = await this.getFileHandle(this.inputDirectoryHandle, settings.interviewFormFileName);
+    }));
   }
 
   private async getTiDirectoryHandle() {
@@ -177,7 +180,9 @@ export class FileService {
       handle = await candidateDirectoryHandle?.getFileHandle(fileName, { create: createIfNotExists });
     } catch {
       try {
-        handle = await candidateDirectoryHandle?.getFileHandle(this.settingsService.interviewFormFileName, { create: createIfNotExists });
+        this.settingsService.settings$.pipe(take(1), tap(async (settings) => {
+          handle = await candidateDirectoryHandle?.getFileHandle(settings.interviewFormFileName, { create: createIfNotExists });
+        }));
       } catch {
         try {
           const oldFileName = `${candidateName} - Interview Form CS template 0.8.xlsx`;

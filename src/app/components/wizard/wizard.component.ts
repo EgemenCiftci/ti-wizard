@@ -1,8 +1,8 @@
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { AfterViewInit, Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, Validators, FormsModule, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { MatStepper, MatStep, MatStepLabel, MatStepperNext, MatStepperPrevious } from '@angular/material/stepper';
-import { debounceTime, Subject, Subscription } from 'rxjs';
+import { debounceTime, Subject, Subscription, take, tap } from 'rxjs';
 import { Item } from 'src/app/models/item';
 import { OverviewData } from 'src/app/models/overview-data';
 import { QuestionMaterial } from 'src/app/models/question-material';
@@ -18,7 +18,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatFormField, MatLabel, MatHint, MatSuffix } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MatAutocompleteTrigger, MatAutocomplete } from '@angular/material/autocomplete';
-import { DecimalPipe } from '@angular/common';
+import { AsyncPipe, DecimalPipe } from '@angular/common';
 import { MatOption } from '@angular/material/core';
 import { MatDatepickerInput, MatDatepickerToggle, MatDatepicker } from '@angular/material/datepicker';
 import { ScoreComponent } from '../score/score.component';
@@ -58,7 +58,8 @@ import { MatChipListbox, MatChip } from '@angular/material/chips';
     MatIconButton,
     MatChipListbox,
     MatChip,
-    DecimalPipe
+    DecimalPipe,
+    AsyncPipe
   ]
 })
 export class WizardComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -80,11 +81,6 @@ export class WizardComponent implements OnInit, AfterViewInit, OnDestroy {
   candidateNameFormGroup = this._formBuilder.group({
     candidateName: ['', Validators.required]
   });
-  overviewFormGroup = this._formBuilder.group({
-    interviewerName: [this.settingsService.interviewerName],
-    date: [new Date()],
-    relevantExperience: [0]
-  });
   taskFormGroup = this._formBuilder.group({});
   questionsFormGroup = this._formBuilder.group({});
   resultFormGroup = this._formBuilder.group({
@@ -96,6 +92,19 @@ export class WizardComponent implements OnInit, AfterViewInit, OnDestroy {
   handleTaskScoreSubscription?: Subscription;
   handleQuestionsScoreSubject = new Subject<void>();
   handleQuestionsScoreSubscription?: Subscription;
+  overviewFormGroup = this._formBuilder.group({
+    interviewerName: [''],
+    date: [new Date()],
+    relevantExperience: [0]
+  });
+
+  constructor() {
+    this.settingsService.settings$.pipe(take(1), tap(settings => {
+      this.overviewFormGroup.patchValue({
+        interviewerName: settings.interviewerName
+      })
+    })).subscribe();
+  }
 
   ngOnInit() {
     this.candidateNameFormGroup.get('candidateName')?.valueChanges.subscribe(async val => {
@@ -249,7 +258,7 @@ export class WizardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private updateOverviewForm(overviewData: OverviewData) {
-    this.overviewFormGroup.patchValue({
+    this.overviewFormGroup?.patchValue({
       interviewerName: overviewData.interviewerName,
       date: overviewData.date,
       relevantExperience: overviewData.relevantExperience
@@ -298,7 +307,9 @@ export class WizardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private openWebsiteInNewTab() {
-    window.open(this.settingsService.websiteUrl, "_blank");
+    this.settingsService.settings$.pipe(take(1), tap((settings) => {
+      window.open(settings.websiteUrl, "_blank");
+    }));
   }
 
   private async copyToClipboard(text: string) {
@@ -339,7 +350,7 @@ export class WizardComponent implements OnInit, AfterViewInit, OnDestroy {
     stepper.reset();
     this.candidateName = '';
     this.isInUpdateMode = false;
-    this.overviewFormGroup.reset();
+    this.overviewFormGroup?.reset();
     this.taskFormGroup.reset();
     this.questionsFormGroup.reset();
     this.resultFormGroup.reset();

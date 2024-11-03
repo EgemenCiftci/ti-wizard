@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatChipInputEvent, MatChipGrid, MatChipRow, MatChipRemove, MatChipInput } from '@angular/material/chips';
 import { SettingsService } from 'src/app/services/settings.service';
 import { SnackBarService } from 'src/app/services/snack-bar.service';
@@ -8,6 +8,8 @@ import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MatIcon } from '@angular/material/icon';
 import { MatButton } from '@angular/material/button';
+import { take } from 'rxjs';
+import { Settings } from 'src/app/models/settings';
 
 @Component({
   selector: 'app-settings',
@@ -34,21 +36,31 @@ export class SettingsComponent implements OnInit {
   private formBuilder = inject(FormBuilder);
   private settingsService = inject(SettingsService);
   private snackBarService = inject(SnackBarService);
-
-  form!: FormGroup;
+  form = this.formBuilder.group({
+    interviewerName: [''],
+    outputDirectory: ['', Validators.required],
+    inputDirectory: ['', Validators.required],
+    aspNetCoreCodeFileName: [''],
+    wpfCodeFileName: [''],
+    questionMaterialsFileName: [''],
+    interviewFormFileName: [''],
+    websiteUrl: [''],
+    preformedSentences: [['']]
+  });
 
   ngOnInit() {
-    this.form = this.formBuilder.group({
-      interviewerName: [this.settingsService.interviewerName],
-      outputDirectory: [this.settingsService.outputDirectory, Validators.required],
-      inputDirectory: [this.settingsService.inputDirectory, Validators.required],
-      aspNetCoreCodeFileName: [this.settingsService.aspNetCoreCodeFileName],
-      wpfCodeFileName: [this.settingsService.wpfCodeFileName],
-      questionMaterialsFileName: [this.settingsService.questionMaterialsFileName],
-      interviewFormFileName: [this.settingsService.interviewFormFileName],
-      websiteUrl: [this.settingsService.websiteUrl],
-      preformedSentences: [this.settingsService.preformedSentences]
-    });
+    this.settingsService.settings$.pipe(take(1)).subscribe(settings =>
+      this.form.patchValue({
+        interviewerName: settings.interviewerName,
+        outputDirectory: settings.outputDirectory,
+        inputDirectory: settings.inputDirectory,
+        aspNetCoreCodeFileName: settings.aspNetCoreCodeFileName,
+        wpfCodeFileName: settings.wpfCodeFileName,
+        questionMaterialsFileName: settings.questionMaterialsFileName,
+        interviewFormFileName: settings.interviewFormFileName,
+        websiteUrl: settings.websiteUrl,
+        preformedSentences: settings.preformedSentences
+      }));
   }
 
   save() {
@@ -57,18 +69,17 @@ export class SettingsComponent implements OnInit {
         return;
       }
 
-      this.settingsService.interviewerName = this.form.value.interviewerName.trim();
-      this.settingsService.outputDirectory = this.form.value.outputDirectory.trim();
-      this.settingsService.inputDirectory = this.form.value.inputDirectory.trim();
-      this.settingsService.aspNetCoreCodeFileName = this.form.value.aspNetCoreCodeFileName.trim();
-      this.settingsService.wpfCodeFileName = this.form.value.wpfCodeFileName.trim();
-      this.settingsService.questionMaterialsFileName = this.form.value.questionMaterialsFileName.trim();
-      this.settingsService.interviewFormFileName = this.form.value.interviewFormFileName.trim();
-      this.settingsService.websiteUrl = this.form.value.websiteUrl.trim();
-      this.settingsService.preformedSentences = this.form.value.preformedSentences;
-      this.settingsService.saveSettings();
-
-      this.snackBarService.showSnackBar('Settings saved successfully.');
+      const settings = new Settings();
+      settings.interviewerName = this.form.value.interviewerName?.trim() ?? '';
+      settings.outputDirectory = this.form.value.outputDirectory?.trim() ?? '';
+      settings.inputDirectory = this.form.value.inputDirectory?.trim() ?? '';
+      settings.aspNetCoreCodeFileName = this.form.value.aspNetCoreCodeFileName?.trim() ?? '';
+      settings.wpfCodeFileName = this.form.value.wpfCodeFileName?.trim() ?? '';
+      settings.questionMaterialsFileName = this.form.value.questionMaterialsFileName?.trim() ?? '';
+      settings.interviewFormFileName = this.form.value.interviewFormFileName?.trim() ?? '';
+      settings.websiteUrl = this.form.value.websiteUrl?.trim() ?? '';
+      settings.preformedSentences = this.form.value.preformedSentences ?? [];
+      this.settingsService.saveSettings(settings).pipe(take(1)).subscribe(() => this.snackBarService.showSnackBar('Settings saved successfully.'));
     } catch (error) {
       console.error(error);
       this.snackBarService.showSnackBar('Error while saving settings.');
@@ -77,9 +88,7 @@ export class SettingsComponent implements OnInit {
 
   reset() {
     try {
-      this.settingsService.resetSettings();
-      this.ngOnInit();
-      this.snackBarService.showSnackBar('Settings reset successfully.');
+      this.settingsService.resetSettings().pipe(take(1)).subscribe(() => this.snackBarService.showSnackBar('Settings reset successfully.'));
     } catch (error) {
       console.error(error);
       this.snackBarService.showSnackBar('Error while resetting settings.');
@@ -90,21 +99,21 @@ export class SettingsComponent implements OnInit {
     const value = (event.value || '').trim();
 
     if (value) {
-      this.form.get('preformedSentences')?.value.push(value);
+      this.form.get('preformedSentences')?.value?.push(value);
     }
 
     event.chipInput!.clear();
   }
 
   removeSentence(sentence: string) {
-    const index = this.form.get('preformedSentences')?.value.indexOf(sentence);
+    const index = this.form.get('preformedSentences')?.value?.indexOf(sentence);
 
-    if (index >= 0) {
-      this.form.get('preformedSentences')?.value.splice(index, 1);
+    if (index && index >= 0) {
+      this.form.get('preformedSentences')?.value?.splice(index, 1);
     }
   }
 
   dropSentence(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.form.get('preformedSentences')?.value, event.previousIndex, event.currentIndex);
+    moveItemInArray(this.form.get('preformedSentences')?.value ?? [], event.previousIndex, event.currentIndex);
   }
 }

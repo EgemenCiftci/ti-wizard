@@ -28,12 +28,14 @@ import { AppComponent } from './app/app.component';
 import { importProvidersFrom } from '@angular/core';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
+import { provideDatabase, getDatabase } from '@angular/fire/database';
 
 const firebaseConfig = {
     apiKey: "AIzaSyC1LpqHF9hln6kdhwbT2QvhD3eVG19g_s0",
     authDomain: "ti-wizard.firebaseapp.com",
+    databaseURL: "https://ti-wizard-default-rtdb.europe-west1.firebasedatabase.app",
     projectId: "ti-wizard",
-    storageBucket: "ti-wizard.appspot.com",
+    storageBucket: "ti-wizard.firebasestorage.app",
     messagingSenderId: "501660150159",
     appId: "1:501660150159:web:77e8da9acb0dd49d50c3fa",
     measurementId: "G-TWZWHDN4YB"
@@ -72,6 +74,7 @@ bootstrapApplication(AppComponent, {
         provideAnimations(),
         provideFirebaseApp(() => initializeApp(firebaseConfig)),
         provideAuth(() => getAuth()),
+        provideDatabase(() => getDatabase()),
         // provideFirebaseApp(() => initializeApp({"projectId":"ti-wizard","appId":"1:501660150159:web:77e8da9acb0dd49d50c3fa","storageBucket":"ti-wizard.appspot.com","locationId":"europe-west","apiKey":"AIzaSyC1LpqHF9hln6kdhwbT2QvhD3eVG19g_s0","authDomain":"ti-wizard.firebaseapp.com","messagingSenderId":"501660150159","measurementId":"G-TWZWHDN4YB"})), 
     ]
 }).catch(err => console.error(err));
