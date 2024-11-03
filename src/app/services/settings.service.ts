@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Settings } from '../models/settings';
-import { child, Database, onValue, push, ref, update } from '@angular/fire/database';
+import { Database, onValue, push, ref, update } from '@angular/fire/database';
 import { AuthenticationService } from './authentication.service';
 import { Observable, of, switchMap, take, tap } from 'rxjs';
 import { User } from '@angular/fire/auth';
@@ -19,7 +19,6 @@ export class SettingsService {
         return new Observable<Settings>(observer => {
           onValue(userRef, snapshot => {
             const settings = snapshot.child('settings').val() as Settings;
-            console.log(settings);
             observer.next(settings);
           }, error => {
             observer.error(error);

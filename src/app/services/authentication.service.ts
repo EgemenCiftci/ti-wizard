@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Auth, authState, inMemoryPersistence, signInWithEmailAndPassword, signOut, user } from '@angular/fire/auth';
-import { browserLocalPersistence, setPersistence } from 'firebase/auth';
+import { browserLocalPersistence, setPersistence, User } from 'firebase/auth';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +17,7 @@ export class AuthenticationService {
     } else {
       await setPersistence(this.auth, inMemoryPersistence);
     }
-    const userCredential = await signInWithEmailAndPassword(this.auth, email, password);
-    console.log(userCredential);
+    await signInWithEmailAndPassword(this.auth, email, password);
   }
 
   async signOut() {
