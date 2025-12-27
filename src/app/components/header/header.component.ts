@@ -10,25 +10,24 @@ import { AsyncPipe } from '@angular/common';
 import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
-  selector: 'app-header',
-  standalone: true,
-  imports: [
-    MatToolbar,
-    MatIcon,
-    MatButton,
-    MatMenu,
-    MatMenuItem,
-    MatTooltip,
-    MatMiniFabButton,
-    MatMenuTrigger,
-    RouterLink,
-    RouterLinkActive,
-    RouterOutlet,
-    AsyncPipe,
-    HeaderComponent
-  ],
-  templateUrl: './header.component.html',
-  styleUrl: './header.component.css'
+    selector: 'app-header',
+    imports: [
+        MatToolbar,
+        MatIcon,
+        MatButton,
+        MatMenu,
+        MatMenuItem,
+        MatTooltip,
+        MatMiniFabButton,
+        MatMenuTrigger,
+        RouterLink,
+        RouterLinkActive,
+        RouterOutlet,
+        AsyncPipe,
+        HeaderComponent
+    ],
+    templateUrl: './header.component.html',
+    styleUrl: './header.component.css'
 })
 export class HeaderComponent {
   authenticationService = inject(AuthenticationService);

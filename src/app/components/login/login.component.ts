@@ -12,27 +12,26 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 import { SnackBarService } from 'src/app/services/snack-bar.service';
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [
-    MatCard,
-    MatCardHeader,
-    MatCardContent,
-    MatError,
-    MatFormField,
-    MatLabel,
-    FormsModule,
-    MatInput,
-    MatCardTitle,
-    MatCardActions,
-    MatCheckbox,
-    MatIcon,
-    MatCardFooter,
-    MatProgressBar,
-    MatButton
-  ],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+    selector: 'app-login',
+    imports: [
+        MatCard,
+        MatCardHeader,
+        MatCardContent,
+        MatError,
+        MatFormField,
+        MatLabel,
+        FormsModule,
+        MatInput,
+        MatCardTitle,
+        MatCardActions,
+        MatCheckbox,
+        MatIcon,
+        MatCardFooter,
+        MatProgressBar,
+        MatButton
+    ],
+    templateUrl: './login.component.html',
+    styleUrl: './login.component.css'
 })
 export class LoginComponent {
   email = '';

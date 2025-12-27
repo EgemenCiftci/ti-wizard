@@ -12,25 +12,24 @@ import { take } from 'rxjs';
 import { Settings } from 'src/app/models/settings';
 
 @Component({
-  selector: 'app-settings',
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.css'],
-  standalone: true,
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    MatFormField,
-    MatLabel,
-    MatInput,
-    MatChipGrid,
-    CdkDropList,
-    MatChipRow,
-    CdkDrag,
-    MatChipRemove,
-    MatIcon,
-    MatChipInput,
-    MatButton
-  ]
+    selector: 'app-settings',
+    templateUrl: './settings.component.html',
+    styleUrls: ['./settings.component.css'],
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        MatFormField,
+        MatLabel,
+        MatInput,
+        MatChipGrid,
+        CdkDropList,
+        MatChipRow,
+        CdkDrag,
+        MatChipRemove,
+        MatIcon,
+        MatChipInput,
+        MatButton
+    ]
 })
 export class SettingsComponent implements OnInit {
   private formBuilder = inject(FormBuilder);
