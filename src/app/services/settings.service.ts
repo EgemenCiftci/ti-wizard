@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Settings } from '../models/settings';
-import { Database, onValue, push, ref, update } from '@angular/fire/database';
+import { Database, onValue, ref, update } from '@angular/fire/database';
 import { AuthenticationService } from './authentication.service';
 import { Observable, of, switchMap, take, tap } from 'rxjs';
 import { User } from '@angular/fire/auth';
@@ -9,8 +9,8 @@ import { User } from '@angular/fire/auth';
   providedIn: 'root'
 })
 export class SettingsService {
-  private database = inject(Database);
-  private authenticationService = inject(AuthenticationService);
+  private readonly database = inject(Database);
+  private readonly authenticationService = inject(AuthenticationService);
   settings$ = this.authenticationService.user$.pipe(
     switchMap(currentUser => {
       if (currentUser) {

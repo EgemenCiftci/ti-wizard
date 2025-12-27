@@ -1,6 +1,6 @@
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { AfterViewInit, Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators, FormsModule, ReactiveFormsModule, FormGroup } from '@angular/forms';
+import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatStepper, MatStep, MatStepLabel, MatStepperNext, MatStepperPrevious } from '@angular/material/stepper';
 import { debounceTime, Subject, Subscription, take, tap } from 'rxjs';
 import { Item } from 'src/app/models/item';
@@ -62,10 +62,10 @@ import { MatChipListbox, MatChip } from '@angular/material/chips';
     ]
 })
 export class WizardComponent implements OnInit, AfterViewInit, OnDestroy {
-  private _formBuilder = inject(FormBuilder);
+  private readonly _formBuilder = inject(FormBuilder);
   settingsService = inject(SettingsService);
-  private _fileService = inject(FileService);
-  private _snackBarService = inject(SnackBarService);
+  private readonly _fileService = inject(FileService);
+  private readonly _snackBarService = inject(SnackBarService);
 
   candidateNames: string[] = [];
   candidateName: string = '';
