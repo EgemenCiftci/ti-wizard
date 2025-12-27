@@ -1,12 +1,14 @@
 <mat-stepper #stepper linear="true" (selectionChange)="stepperSelectionChange($event)">
-  <mat-step [completed]="tiDirectoryName">
+  <mat-step [completed]="areFilesUploaded">
     <ng-template matStepLabel>
-      <p class="mb-0 label">TI Directory</p>
-      <p class="mb-0 sub-label">{{tiDirectoryName}}</p>
+      <p class="mb-0 label">Upload Files</p>
+      <p class="mb-0 sub-label">Job post, CV, etc.</p>
     </ng-template>
-    <button mat-flat-button class="w-100 my-2" color="primary" (click)="selectTiDirectory(stepper)">
-      <span>Select TI Directory</span>
-      <mat-icon>folder_open</mat-icon>
+    <input #fileInput type="file" multiple hidden (change)="onFilesSelected($event)"
+      accept=".pdf,.doc,.docx,.txt,.xlsx,.xls,.png,.jpg,.jpeg,.gif,.webp" />
+    <button mat-flat-button class="w-100 my-2" color="primary" (click)="fileInput.click()">
+      <span>Upload Files</span>
+      <mat-icon>upload</mat-icon>
     </button>
   </mat-step>
   <mat-step [stepControl]="candidateNameFormGroup">

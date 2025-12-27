@@ -25,51 +25,53 @@ import { ScoreComponent } from '../score/score.component';
 import { MatDivider } from '@angular/material/divider';
 import { MatSelect } from '@angular/material/select';
 import { MatChipListbox, MatChip } from '@angular/material/chips';
+import { AiService } from 'src/app/services/ai.service';
 
 @Component({
-    selector: 'app-wizard',
-    templateUrl: './wizard.component.html',
-    styleUrls: ['./wizard.component.css'],
-    imports: [
-        MatStepper,
-        MatStep,
-        MatStepLabel,
-        MatButton,
-        MatIcon,
-        FormsModule,
-        ReactiveFormsModule,
-        MatFormField,
-        MatLabel,
-        MatInput,
-        MatAutocompleteTrigger,
-        MatAutocomplete,
-        MatOption,
-        MatStepperNext,
-        MatDatepickerInput,
-        MatHint,
-        MatDatepickerToggle,
-        MatSuffix,
-        MatDatepicker,
-        ScoreComponent,
-        MatDivider,
-        MatStepperPrevious,
-        MatSelect,
-        MatIconButton,
-        MatChipListbox,
-        MatChip,
-        DecimalPipe,
-        AsyncPipe
-    ]
+  selector: 'app-wizard',
+  templateUrl: './wizard.component.html',
+  styleUrls: ['./wizard.component.css'],
+  imports: [
+    MatStepper,
+    MatStep,
+    MatStepLabel,
+    MatButton,
+    MatIcon,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatAutocompleteTrigger,
+    MatAutocomplete,
+    MatOption,
+    MatStepperNext,
+    MatDatepickerInput,
+    MatHint,
+    MatDatepickerToggle,
+    MatSuffix,
+    MatDatepicker,
+    ScoreComponent,
+    MatDivider,
+    MatStepperPrevious,
+    MatSelect,
+    MatIconButton,
+    MatChipListbox,
+    MatChip,
+    DecimalPipe,
+    AsyncPipe
+  ]
 })
 export class WizardComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly _formBuilder = inject(FormBuilder);
   settingsService = inject(SettingsService);
   private readonly _fileService = inject(FileService);
   private readonly _snackBarService = inject(SnackBarService);
+  private readonly _aiService = inject(AiService);
 
   candidateNames: string[] = [];
   candidateName: string = '';
-  tiDirectoryName?: string;
+  areFilesUploaded = false;
   questionMaterials: QuestionMaterial[] = [];
   isInUpdateMode = false;
   selectedTask?: string;
@@ -96,6 +98,7 @@ export class WizardComponent implements OnInit, AfterViewInit, OnDestroy {
     date: [new Date()],
     relevantExperience: [0]
   });
+  files: File[] = [];
 
   constructor() {
     this.settingsService.settings$.pipe(take(1), tap(settings => {
@@ -139,17 +142,41 @@ export class WizardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.handleQuestionsScoreSubject.next();
   }
 
-  async selectTiDirectory(stepper: MatStepper) {
+  async uploadFiles(stepper: MatStepper) {
     try {
-      await this._fileService.initialize();
-      this.tiDirectoryName = this._fileService.tiDirectoryHandle?.name;
-      this.candidateNames = await this._fileService.getCandidateNames();
-      this.questionMaterials = await this._fileService.getQuestionMaterials();
+      if (this.files.length === 0) {
+        this._snackBarService.showSnackBar('Please select files first.');
+        return;
+      }
+
+      const prompt = `
+      Role: You are an expert Senior Technical Hiring Manager and Interviewer.
+      Context: I have uploaded a Job Description (JD) and a Candidate's CV/Resume.
+      Task: Analyze the documents to identify the core technical requirements, soft skills, and specific gaps or strengths in the candidate's profile. Based on this analysis, generate 20 Interview Questions.
+      Structure: Please categorize the questions as follows:
+      Questions 1–10: Hard Technical Skills (Coding, System Design, Tech Stack specific to the JD).
+      Questions 11–15: Experience & Resume Deep Dive (Probing specific projects listed on their CV).
+      Questions 16–20: Behavioral & Soft Skills (Focusing on culture fit and problem-solving).
+      Output Format: For each of the 20 questions, you must provide the following structured output:
+      Q[#]. [The Question]
+      Context/Reasoning: Briefly explain why this question is being asked based on the JD or CV.
+      Ideal Answer Summary: A concise explanation of what a "perfect" answer sounds like.
+      Scoring Rubric (Total 10 Points): Provide a breakdown of sub-partial answers with points.
+      [Criteria A] : [X] points
+      [Criteria B] : [X] points
+      [Criteria C] : [X] points
+      Constraints:
+      Ensure the scoring rubric allows for partial credit (e.g., give points for the "what," "how," and "why").
+      Tailor the complexity to the seniority level implied in the JD.
+      If the candidate's CV is missing a key skill mentioned in the JD, generate a specific question to test their aptitude in that missing area.`;
+
+      const json = await this._aiService.generateJsonWithMultipleFiles(this.files, prompt);
+      this.areFilesUploaded = true;
+      this.files = []; // Clear selected files
       stepper.selectedIndex = 1;
     } catch (error) {
-      this.tiDirectoryName = undefined;
       console.error(error);
-      this._snackBarService.showSnackBar('Error while selecting TI directory.');
+      this._snackBarService.showSnackBar('Error while uploading files.');
     }
   }
 
@@ -349,6 +376,7 @@ export class WizardComponent implements OnInit, AfterViewInit, OnDestroy {
     stepper.reset();
     this.candidateName = '';
     this.isInUpdateMode = false;
+    this.areFilesUploaded = false;
     this.overviewFormGroup?.reset();
     this.taskFormGroup.reset();
     this.questionsFormGroup.reset();
@@ -356,7 +384,6 @@ export class WizardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.sections = [];
     this.taskItems = [];
     this.selectedTask = undefined;
-    this.tiDirectoryName = undefined;
     this.candidateNames = [];
     this.questionMaterials = [];
     this.scoring = undefined;
@@ -394,5 +421,14 @@ export class WizardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.resultFormGroup.patchValue({
       overallImpression: this.resultFormGroup.value.overallImpression
     });
+  }
+
+  async onFilesSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files) {
+      this.files = Array.from(input.files);
+      const text = await this._aiService.generateJsonWithMultipleFiles(this.files, "Generate questions based on the uploaded files.");
+      console.log(text);
+    }
   }
 }
