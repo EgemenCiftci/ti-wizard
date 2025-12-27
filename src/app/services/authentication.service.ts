@@ -1,7 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Auth, authState, inMemoryPersistence, signInWithEmailAndPassword, signOut, user } from '@angular/fire/auth';
-import { browserLocalPersistence, setPersistence, User } from 'firebase/auth';
-import { BehaviorSubject } from 'rxjs';
+import { browserLocalPersistence, setPersistence } from 'firebase/auth';
 
 @Injectable({
   providedIn: 'root'

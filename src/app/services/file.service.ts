@@ -19,8 +19,8 @@ import { take, tap } from 'rxjs';
   providedIn: 'root'
 })
 export class FileService {
-  private settingsService = inject(SettingsService);
-  private mappingsService = inject(MappingsService);
+  private readonly settingsService = inject(SettingsService);
+  private readonly mappingsService = inject(MappingsService);
 
   tiDirectoryHandle?: FileSystemDirectoryHandle;
   outputDirectoryHandle?: FileSystemDirectoryHandle;
@@ -114,7 +114,7 @@ export class FileService {
 
     const overviewData = new OverviewData();
     const relevantExperience = Number(worksheet.getCell(this.mappingsService.mappings.overview.relevantExperienceCell).value);
-    overviewData.relevantExperience = relevantExperience ? relevantExperience : undefined;
+    overviewData.relevantExperience = relevantExperience || undefined;
     overviewData.interviewerName = String(worksheet.getCell(this.mappingsService.mappings.overview.interviewerNameCell).value);
     overviewData.date = new Date(String(worksheet.getCell(this.mappingsService.mappings.overview.dateCell).value));
 
@@ -227,7 +227,7 @@ export class FileService {
         item.scoreCell = `${this.mappingsService.mappings.tasks.scoreColumn}${row}`;
         item.totalScoreCell = `${this.mappingsService.mappings.tasks.totalScoreColumn}${row}`;
         const score = Number(worksheet.getCell(item.scoreCell).value);
-        item.score = score ? score : undefined;
+        item.score = score || undefined;
         return item;
       });
 
@@ -282,7 +282,7 @@ export class FileService {
           item.scoreCell = `${csQuestions.scoreColumn}${row}`;
           item.row = row;
           const score = Number(worksheet.getCell(item.scoreCell).value);
-          item.score = score ? score : undefined;
+          item.score = score || undefined;
           return item;
         });
         sectionData.regularItems = section.regular.rows?.map(row => {
@@ -292,7 +292,7 @@ export class FileService {
           item.scoreCell = `${csQuestions.scoreColumn}${row}`;
           item.row = row;
           const score = Number(worksheet.getCell(item.scoreCell).value);
-          item.score = score ? score : undefined;
+          item.score = score || undefined;
           return item;
         });
         sectionData.seniorItems = section.senior.rows?.map(row => {
@@ -302,7 +302,7 @@ export class FileService {
           item.scoreCell = `${csQuestions.scoreColumn}${row}`;
           item.row = row;
           const score = Number(worksheet.getCell(item.scoreCell).value);
-          item.score = score ? score : undefined;
+          item.score = score || undefined;
           return item;
         });
 
@@ -499,15 +499,15 @@ export class FileService {
   private getSectionScores(sectionData: Section, worksheet: Excel.Worksheet, sheets: Sheets): { juniorScore?: number, regularScore?: number, seniorScore?: number } {
     const juniorScoreFormula = worksheet.getCell(sectionData.juniorScoreCell!).formula;
     let juniorScore: number | undefined = Number(this.evaluateFormula(this.mappingsService.mappings.csQuestions.worksheetName, juniorScoreFormula, sheets));
-    juniorScore = juniorScore ? juniorScore : undefined;
+    juniorScore = juniorScore || undefined;
 
     const regularScoreFormula = worksheet.getCell(sectionData.regularScoreCell!).formula;
     let regularScore: number | undefined = Number(this.evaluateFormula(this.mappingsService.mappings.csQuestions.worksheetName, regularScoreFormula, sheets));
-    regularScore = regularScore ? regularScore : undefined;
+    regularScore = regularScore || undefined;
 
     const seniorScoreFormula = worksheet.getCell(sectionData.seniorScoreCell!).formula;
     let seniorScore: number | undefined = Number(this.evaluateFormula(this.mappingsService.mappings.csQuestions.worksheetName, seniorScoreFormula, sheets));
-    seniorScore = seniorScore ? seniorScore : undefined;
+    seniorScore = seniorScore || undefined;
 
     return { juniorScore, regularScore, seniorScore };
   }

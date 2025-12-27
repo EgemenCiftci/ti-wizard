@@ -1,5 +1,4 @@
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
-import { provideAnimations } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app/app-routing.module';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -71,11 +70,9 @@ bootstrapApplication(AppComponent, {
             DragDropModule,
             MatMenuModule
         ),
-        provideAnimations(),
         provideFirebaseApp(() => initializeApp(firebaseConfig)),
         provideAuth(() => getAuth()),
-        provideDatabase(() => getDatabase()),
-        // provideFirebaseApp(() => initializeApp({"projectId":"ti-wizard","appId":"1:501660150159:web:77e8da9acb0dd49d50c3fa","storageBucket":"ti-wizard.appspot.com","locationId":"europe-west","apiKey":"AIzaSyC1LpqHF9hln6kdhwbT2QvhD3eVG19g_s0","authDomain":"ti-wizard.firebaseapp.com","messagingSenderId":"501660150159","measurementId":"G-TWZWHDN4YB"})), 
+        provideDatabase(() => getDatabase())
     ]
 }).catch(err => console.error(err));
 
