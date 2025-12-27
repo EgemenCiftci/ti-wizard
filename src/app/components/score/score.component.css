@@ -1,74 +1,74 @@
 .mat-mdc-radio-button.mat-primary.red {
-    --mdc-radio-disabled-selected-icon-color: #fff;
-    --mdc-radio-disabled-unselected-icon-color: #fff;
-    --mdc-radio-unselected-focus-icon-color: red;
-    --mdc-radio-unselected-hover-icon-color: red;
-    --mdc-radio-unselected-icon-color: rgba(255, 255, 255, 0.54);
-    --mdc-radio-unselected-pressed-icon-color: rgba(255, 255, 255, 0.54);
-    --mdc-radio-selected-focus-icon-color: red;
-    --mdc-radio-selected-hover-icon-color: red;
-    --mdc-radio-selected-icon-color: red;
-    --mdc-radio-selected-pressed-icon-color: red;
+    --mat-radio-disabled-selected-icon-color: #fff;
+    --mat-radio-disabled-unselected-icon-color: #fff;
+    --mat-radio-unselected-focus-icon-color: red;
+    --mat-radio-unselected-hover-icon-color: red;
+    --mat-radio-unselected-icon-color: rgba(255, 255, 255, 0.54);
+    --mat-radio-unselected-pressed-icon-color: rgba(255, 255, 255, 0.54);
+    --mat-radio-selected-focus-icon-color: red;
+    --mat-radio-selected-hover-icon-color: red;
+    --mat-radio-selected-icon-color: red;
+    --mat-radio-selected-pressed-icon-color: red;
     --mat-mdc-radio-ripple-color: #fff;
     --mat-mdc-radio-checked-ripple-color: red;
 }
 
 .mat-mdc-radio-button.mat-primary.yellow {
-    --mdc-radio-disabled-selected-icon-color: #fff;
-    --mdc-radio-disabled-unselected-icon-color: #fff;
-    --mdc-radio-unselected-focus-icon-color: yellow;
-    --mdc-radio-unselected-hover-icon-color: yellow;
-    --mdc-radio-unselected-icon-color: rgba(255, 255, 255, 0.54);
-    --mdc-radio-unselected-pressed-icon-color: rgba(255, 255, 255, 0.54);
-    --mdc-radio-selected-focus-icon-color: yellow;
-    --mdc-radio-selected-hover-icon-color: yellow;
-    --mdc-radio-selected-icon-color: yellow;
-    --mdc-radio-selected-pressed-icon-color: yellow;
+    --mat-radio-disabled-selected-icon-color: #fff;
+    --mat-radio-disabled-unselected-icon-color: #fff;
+    --mat-radio-unselected-focus-icon-color: yellow;
+    --mat-radio-unselected-hover-icon-color: yellow;
+    --mat-radio-unselected-icon-color: rgba(255, 255, 255, 0.54);
+    --mat-radio-unselected-pressed-icon-color: rgba(255, 255, 255, 0.54);
+    --mat-radio-selected-focus-icon-color: yellow;
+    --mat-radio-selected-hover-icon-color: yellow;
+    --mat-radio-selected-icon-color: yellow;
+    --mat-radio-selected-pressed-icon-color: yellow;
     --mat-mdc-radio-ripple-color: #fff;
     --mat-mdc-radio-checked-ripple-color: yellow;
 }
 
 .mat-mdc-radio-button.mat-primary.orange {
-    --mdc-radio-disabled-selected-icon-color: #fff;
-    --mdc-radio-disabled-unselected-icon-color: #fff;
-    --mdc-radio-unselected-focus-icon-color: orange;
-    --mdc-radio-unselected-hover-icon-color: orange;
-    --mdc-radio-unselected-icon-color: rgba(255, 255, 255, 0.54);
-    --mdc-radio-unselected-pressed-icon-color: rgba(255, 255, 255, 0.54);
-    --mdc-radio-selected-focus-icon-color: orange;
-    --mdc-radio-selected-hover-icon-color: orange;
-    --mdc-radio-selected-icon-color: orange;
-    --mdc-radio-selected-pressed-icon-color: orange;
+    --mat-radio-disabled-selected-icon-color: #fff;
+    --mat-radio-disabled-unselected-icon-color: #fff;
+    --mat-radio-unselected-focus-icon-color: orange;
+    --mat-radio-unselected-hover-icon-color: orange;
+    --mat-radio-unselected-icon-color: rgba(255, 255, 255, 0.54);
+    --mat-radio-unselected-pressed-icon-color: rgba(255, 255, 255, 0.54);
+    --mat-radio-selected-focus-icon-color: orange;
+    --mat-radio-selected-hover-icon-color: orange;
+    --mat-radio-selected-icon-color: orange;
+    --mat-radio-selected-pressed-icon-color: orange;
     --mat-mdc-radio-ripple-color: #fff;
     --mat-mdc-radio-checked-ripple-color: orange;
 }
 
 .mat-mdc-radio-button.mat-primary.green {
-    --mdc-radio-disabled-selected-icon-color: #fff;
-    --mdc-radio-disabled-unselected-icon-color: #fff;
-    --mdc-radio-unselected-focus-icon-color: green;
-    --mdc-radio-unselected-hover-icon-color: green;
-    --mdc-radio-unselected-icon-color: rgba(255, 255, 255, 0.54);
-    --mdc-radio-unselected-pressed-icon-color: rgba(255, 255, 255, 0.54);
-    --mdc-radio-selected-focus-icon-color: green;
-    --mdc-radio-selected-hover-icon-color: green;
-    --mdc-radio-selected-icon-color: green;
-    --mdc-radio-selected-pressed-icon-color: green;
+    --mat-radio-disabled-selected-icon-color: #fff;
+    --mat-radio-disabled-unselected-icon-color: #fff;
+    --mat-radio-unselected-focus-icon-color: green;
+    --mat-radio-unselected-hover-icon-color: green;
+    --mat-radio-unselected-icon-color: rgba(255, 255, 255, 0.54);
+    --mat-radio-unselected-pressed-icon-color: rgba(255, 255, 255, 0.54);
+    --mat-radio-selected-focus-icon-color: green;
+    --mat-radio-selected-hover-icon-color: green;
+    --mat-radio-selected-icon-color: green;
+    --mat-radio-selected-pressed-icon-color: green;
     --mat-mdc-radio-ripple-color: #fff;
     --mat-mdc-radio-checked-ripple-color: green;
 }
 
 .mat-mdc-radio-button.mat-primary.blue {
-    --mdc-radio-disabled-selected-icon-color: #fff;
-    --mdc-radio-disabled-unselected-icon-color: #fff;
-    --mdc-radio-unselected-focus-icon-color: blue;
-    --mdc-radio-unselected-hover-icon-color: blue;
-    --mdc-radio-unselected-icon-color: rgba(255, 255, 255, 0.54);
-    --mdc-radio-unselected-pressed-icon-color: rgba(255, 255, 255, 0.54);
-    --mdc-radio-selected-focus-icon-color: blue;
-    --mdc-radio-selected-hover-icon-color: blue;
-    --mdc-radio-selected-icon-color: blue;
-    --mdc-radio-selected-pressed-icon-color: blue;
+    --mat-radio-disabled-selected-icon-color: #fff;
+    --mat-radio-disabled-unselected-icon-color: #fff;
+    --mat-radio-unselected-focus-icon-color: blue;
+    --mat-radio-unselected-hover-icon-color: blue;
+    --mat-radio-unselected-icon-color: rgba(255, 255, 255, 0.54);
+    --mat-radio-unselected-pressed-icon-color: rgba(255, 255, 255, 0.54);
+    --mat-radio-selected-focus-icon-color: blue;
+    --mat-radio-selected-hover-icon-color: blue;
+    --mat-radio-selected-icon-color: blue;
+    --mat-radio-selected-pressed-icon-color: blue;
     --mat-mdc-radio-ripple-color: #fff;
     --mat-mdc-radio-checked-ripple-color: blue;
 }
